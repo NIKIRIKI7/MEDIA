@@ -13,9 +13,9 @@ namespace MEDIA
         {
             List<string> videos = new List<string>() { "https://www.youtube.com/shorts/ZPiYFU4pqiQ" };
             string downloadPath = "/home/mcniki/Видео/";
-            
-            IDownloadVideo downloadVideo = new DownloadVideosObjects(videos, downloadPath);
-            await downloadVideo.DownloadVideosAsync();
+
+            IDownloadVideoService downloadVideo = new DownloadVideosService(videos, downloadPath);
+            await downloadVideo.DownloadVideos();
         }
     }
 }

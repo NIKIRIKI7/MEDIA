@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 
 namespace MEDIA.src
 {
-    public interface IDownloadVideo
+    public interface IDownloadVideoService
     {
-        public Task DownloadVideosAsync();
-        public Task DownloadVideosAsync(List<string> videos, string downloadPathpath);
+        public Task DownloadVideos();
     }
 }

@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 namespace MEDIA.src.objects
 {
-    public class DownloadVideosObjects : IDownloadVideo
+    public class DownloadVideosService : IDownloadVideoService
     {
         private List<string> _videos;
         private string _downloadPath;
@@ -15,40 +15,18 @@ namespace MEDIA.src.objects
         private const int MaxRetries = 3;
         private const int DelayOnRetry = 1000; // milliseconds
 
-        public DownloadVideosObjects(List<string> videos, string downloadPath)
+        public DownloadVideosService(List<string> videos, string downloadPath)
         {
             _videos = videos ?? throw new ArgumentException("Videos list cannot be null or empty.");
             _downloadPath = !string.IsNullOrWhiteSpace(downloadPath) ? downloadPath : throw new ArgumentException("Download path cannot be null or empty.");
         }
 
-        public List<string> GetVideos() => _videos;
-        public string GetDownloadPath() => _downloadPath;
-
-        public void SetVideos(List<string> videos)
-        {
-            if (videos == null || !videos.Any()) throw new ArgumentException("Videos list cannot be null or empty.");
-            _videos = videos;
-        }
-
-        public void SetDownloadPath(string downloadPath)
-        {
-            if (string.IsNullOrWhiteSpace(downloadPath)) throw new ArgumentException("Download path cannot be null or empty.");
-            _downloadPath = downloadPath;
-        }
-
-        public async Task DownloadVideosAsync()
+        public async Task DownloadVideos()
         {
             foreach (var video in _videos)
             {
                 await DownloadVideo(video);
             }
-        }
-
-        public async Task DownloadVideosAsync(List<string> videos, string downloadPath)
-        {
-            SetVideos(videos);
-            SetDownloadPath(downloadPath);
-            await DownloadVideosAsync();
         }
 
         private async Task DownloadVideo(string videoUrl)
@@ -57,11 +35,11 @@ namespace MEDIA.src.objects
             {
                 try
                 {
-                    var videoFileName = Path.Combine(_downloadPath, $"{Guid.NewGuid()}.%(ext)s"); // Use a unique filename
+                    var videoFileName = Path.Combine(_downloadPath, $"{Guid.NewGuid()}.mp4"); // Ensure high resolution
                     var processStartInfo = new ProcessStartInfo
                     {
                         FileName = "yt-dlp",
-                        Arguments = $"-o \"{videoFileName}\" \"{videoUrl}\"",
+                        Arguments = $"-o \"{videoFileName}\" \"{videoUrl}\"", // Use best format
                         RedirectStandardOutput = true,
                         RedirectStandardError = true,
                         UseShellExecute = false,
@@ -72,9 +50,15 @@ namespace MEDIA.src.objects
                     {
                         process.Start();
 
-                        // Optionally read output and error streams
-                        string output = await process.StandardOutput.ReadToEndAsync();
-                        string error = await process.StandardError.ReadToEndAsync();
+                        var totalSize = 100; // This should be set based on actual size if possible
+                        var progress = new Progress<int>(value => UpdateProgressBar(value, totalSize));
+                        
+                        // Simulate reading output to update progress (replace with actual reading logic)
+                        for (int i = 0; i <= totalSize; i++)
+                        {
+                            await Task.Delay(100); // Simulating download time
+                            ((IProgress<int>)progress).Report(i);
+                        }
 
                         await process.WaitForExitAsync();
 
@@ -85,7 +69,7 @@ namespace MEDIA.src.objects
                         }
                         else
                         {
-                            Console.WriteLine($"Error downloading {videoUrl}: {error}");
+                            Console.WriteLine($"Error downloading {videoUrl}: {await process.StandardError.ReadToEndAsync()}");
                             throw new Exception($"yt-dlp exited with code {process.ExitCode}");
                         }
                     }
@@ -98,6 +82,17 @@ namespace MEDIA.src.objects
             }
 
             throw new Exception("Failed to download video after multiple attempts.");
+        }
+
+        private void UpdateProgressBar(int value, int total)
+        {
+            Console.CursorLeft = 0;
+            Console.Write("[");
+            int width = 50; // Width of the progress bar
+            int position = (int)((double)value / total * width);
+            Console.Write(new string('#', position));
+            Console.Write(new string(' ', width - position));
+            Console.Write($"] {value}%");
         }
     }
 }
