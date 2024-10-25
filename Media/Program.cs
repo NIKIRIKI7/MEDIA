@@ -12,12 +12,6 @@ namespace MEDIA
     {
         public static async Task Main()
         {
-            // await DownloadVideo();
-            // await EditVideo();
-            // await EditAudio();
-            // await DownloadAudio();
-            // await DownloadThumbnail();
-            // await DownloadVideoInfo();
             await CreateProjectStructure();
         }
 
