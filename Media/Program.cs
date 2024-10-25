@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Media.src;
 using Media.src.objects;
@@ -13,49 +12,56 @@ namespace MEDIA
     {
         public static async Task Main()
         {
-            // List<string> videos = new List<string>() { "https://www.youtube.com/shorts/ZPiYFU4pqiQ" };
-            // string downloadPath = "/home/mcniki/Видео/";
+            await DownloadVideo();
+            await EditVideo();
+            await EditAudio();
+            await DownloadAudio();
+            await DownloadThumbnail();
+        }
 
-            // IDownloadVideoService downloadVideo = new DownloadVideoService(videos, downloadPath);
-            // await downloadVideo.DownloadVideos();
+        private static async Task DownloadVideo()
+        {
+            List<string> videos = new List<string>() { "https://www.youtube.com/shorts/ZPiYFU4pqiQ" };
+            string downloadPath = "/home/mcniki/Видео/";
 
+            IDownloadContentService downloadVideo = new DownloadVideoService(videos, downloadPath);
+            await downloadVideo.DownloadContents();
+        }
 
+        private static async Task EditVideo()
+        {
+            List<string> videosPath = new List<string>() {"/home/mcniki/Видео/video.webm"};
+            string timePartVideo = "00:00:30";
 
+            IEditingContentService editingVideo = new EditingVideoService(videosPath, timePartVideo);
+            await editingVideo.CutContents();
+        }
 
-            // List<string> videosPath = new List<string>() {"/home/mcniki/Видео/video.webm"};
-            // string timePartVideo = "00:00:30";
+        private static async Task EditAudio()
+        {
+            List<string> audiosPath = new List<string>() {"/home/mcniki/Видео/audio.mp3"};
+            string timePartAudio = "00:00:15";
 
-            // IEditingVideoService editingVideo = new EditingVideoService(videosPath, timePartVideo);
-            // await editingVideo.CutVideos();
+            IEditingContentService editingAudio = new EditingAudioService(audiosPath, timePartAudio);
+            await editingAudio.CutContents();
+        }
 
+        private static async Task DownloadAudio()
+        {
+            List<string> audios = new List<string>() { "https://www.youtube.com/shorts/ZPiYFU4pqiQ" };
+            string downloadPath = "/home/mcniki/Видео/";
 
+            IDownloadContentService downloadAudio = new DownloadAudioService(audios, downloadPath);
+            await downloadAudio.DownloadContents();
+        }
 
+        private static async Task DownloadThumbnail()
+        {
+            List<string> videoUrls = new List<string>() { "https://www.youtube.com/shorts/ZPiYFU4pqiQ" };
+            string downloadPath = "/home/mcniki/Изображения/";
 
-
-            // List<string> audiosPath = new List<string>() {"/home/mcniki/Видео/audio.mp3"};
-            // string timePartAudio = "00:00:15";
-
-            // IEditingAudioService editingAudio = new EditingAudioService(audiosPath, timePartAudio);
-            // await editingAudio.CutAudios();
-
-
-
-
-
-            // List<string> audios = new List<string>() { "https://www.youtube.com/shorts/ZPiYFU4pqiQ" };
-            // string downloadPath = "/home/mcniki/Видео/";
-
-            // IDownloadAudioService downloadAudio = new DownloadAudioService(audios, downloadPath);
-            // await downloadAudio.DownloadAudios();
-
-
-
-
-            // List<string> videoUrls = new List<string>() { "https://www.youtube.com/shorts/ZPiYFU4pqiQ" };
-            // string downloadPath = "/home/mcniki/Изображения/"; // Измените путь на нужный вам
-
-            // IDownloadThumbnailService downloadThumbnail = new DownloadThumbnailService(videoUrls, downloadPath);
-            // await downloadThumbnail.DownloadThumbnails();
+            IDownloadContentService downloadThumbnail = new DownloadThumbnailService(videoUrls, downloadPath);
+            await downloadThumbnail.DownloadContents();
         }
     }
 }
