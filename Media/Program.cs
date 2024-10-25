@@ -12,11 +12,12 @@ namespace MEDIA
     {
         public static async Task Main()
         {
-            await DownloadVideo();
-            await EditVideo();
-            await EditAudio();
-            await DownloadAudio();
-            await DownloadThumbnail();
+            // await DownloadVideo();
+            // await EditVideo();
+            // await EditAudio();
+            // await DownloadAudio();
+            // await DownloadThumbnail();
+            // await DownloadVideoInfo();
         }
 
         private static async Task DownloadVideo()
@@ -62,6 +63,15 @@ namespace MEDIA
 
             IDownloadContentService downloadThumbnail = new DownloadThumbnailService(videoUrls, downloadPath);
             await downloadThumbnail.DownloadContents();
+        }
+
+        private static async Task DownloadVideoInfo()
+        {
+            List<string> videoUrls = new List<string>() { "https://www.youtube.com/shorts/ZPiYFU4pqiQ" };
+            string downloadPath = "/home/mcniki/Документы/";
+
+            IDownloadContentService downloadVideoInfo = new DownloadVideoInfoService(videoUrls, downloadPath);
+            await downloadVideoInfo.DownloadContents();
         }
     }
 }
