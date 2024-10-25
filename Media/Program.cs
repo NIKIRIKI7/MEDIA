@@ -11,7 +11,7 @@ namespace MEDIA
 {
     class Program
     {
-        public static void Main()
+        public static async Task Main()
         {
             // List<string> videos = new List<string>() { "https://www.youtube.com/shorts/ZPiYFU4pqiQ" };
             // string downloadPath = "/home/mcniki/Видео/";
@@ -48,6 +48,14 @@ namespace MEDIA
             // IDownloadAudioService downloadAudio = new DownloadAudioService(audios, downloadPath);
             // await downloadAudio.DownloadAudios();
 
+
+
+
+            // List<string> videoUrls = new List<string>() { "https://www.youtube.com/shorts/ZPiYFU4pqiQ" };
+            // string downloadPath = "/home/mcniki/Изображения/"; // Измените путь на нужный вам
+
+            // IDownloadThumbnailService downloadThumbnail = new DownloadThumbnailService(videoUrls, downloadPath);
+            // await downloadThumbnail.DownloadThumbnails();
         }
     }
 }

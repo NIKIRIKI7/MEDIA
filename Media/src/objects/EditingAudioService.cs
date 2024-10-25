@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
+using MEDIA.src;
 
 namespace Media.src.objects
 {
-    public class EditingAudioService : IEditingAudioService
+    public class EditingAudioService : IEditingContentService
     {
         private readonly string _timePartAudio;
         private readonly List<string> _audiosPath;
@@ -17,7 +18,7 @@ namespace Media.src.objects
             _timePartAudio = !string.IsNullOrWhiteSpace(timePartAudio) ? timePartAudio : throw new ArgumentException("timePartAudio cannot be null or empty.");
         }
 
-        public async Task CutAudios()
+        public async Task CutContents()
         {
             foreach (var audio in _audiosPath)
             {

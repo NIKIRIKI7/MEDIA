@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
+using MEDIA.src;
 
 namespace Media.src.objects
 {
-    public class EditingVideoService : IEditingVideoService
+    public class EditingVideoService : IEditingContentService
     {
         private readonly string _timePartVideo;
         private readonly List<string> _videosPath;
@@ -17,7 +18,7 @@ namespace Media.src.objects
             _timePartVideo = !string.IsNullOrWhiteSpace(timePartVideo) ? timePartVideo : throw new ArgumentException("timePartVideo cannot be null or empty.");
         }
 
-        public async Task CutVideos()
+        public async Task CutContents()
         {
             foreach (var video in _videosPath)
             {

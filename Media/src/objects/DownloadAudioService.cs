@@ -4,10 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using MEDIA.src;
 
 namespace Media.src.objects
 {
-    public class DownloadAudioService : IDownloadAudioService
+    public class DownloadAudioService : IDownloadContentService
     {
         private readonly List<string> _audios;
         private readonly string _downloadPath;
@@ -21,7 +22,7 @@ namespace Media.src.objects
             _downloadPath = !string.IsNullOrWhiteSpace(downloadPath) ? downloadPath : throw new ArgumentException("Download path cannot be null or empty.");
         }
 
-        public async Task DownloadAudios()
+        public async Task DownloadContents()
         {
             foreach (var audio in _audios)
             {
