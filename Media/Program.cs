@@ -18,6 +18,7 @@ namespace MEDIA
             // await DownloadAudio();
             // await DownloadThumbnail();
             // await DownloadVideoInfo();
+            await CreateProjectStructure();
         }
 
         private static async Task DownloadVideo()
@@ -72,6 +73,16 @@ namespace MEDIA
 
             IDownloadContentService downloadVideoInfo = new DownloadVideoInfoService(videoUrls, downloadPath);
             await downloadVideoInfo.DownloadContents();
+        }
+
+        private static async Task CreateProjectStructure()
+        {
+            string baseDirectory = "/home/mcniki/Видео/";
+            List<string> videoUrls = new List<string> { "https://www.youtube.com/shorts/ZPiYFU4pqiQ" };
+            string cutDuration = "00:00:30";
+
+            var projectManager = new ProjectStructureManager(baseDirectory, videoUrls, cutDuration);
+            await projectManager.CreateProjectStructure();
         }
     }
 }
