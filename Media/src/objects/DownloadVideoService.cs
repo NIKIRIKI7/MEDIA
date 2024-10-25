@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 namespace MEDIA.src.objects
 {
-    public class DownloadVideosService : IDownloadVideoService
+    public class DownloadVideoService : IDownloadVideoService
     {
         private readonly List<string> _videos;
         private readonly string _downloadPath;
@@ -15,7 +15,7 @@ namespace MEDIA.src.objects
         private const int MaxRetries = 3;
         private const int DelayOnRetry = 1000; // milliseconds
 
-        public DownloadVideosService(List<string> videos, string downloadPath)
+        public DownloadVideoService(List<string> videos, string downloadPath)
         {
             _videos = videos ?? throw new ArgumentException("Videos list cannot be null or empty.");
             _downloadPath = !string.IsNullOrWhiteSpace(downloadPath) ? downloadPath : throw new ArgumentException("Download path cannot be null or empty.");
