@@ -12,7 +12,8 @@ namespace MEDIA
     {
         public static async Task Main()
         {
-            await CreateProjectStructure();
+            // await CreateProjectStructure();
+            await RecognitionVideos();
         }
 
         private static async Task DownloadVideo()
@@ -72,11 +73,20 @@ namespace MEDIA
         private static async Task CreateProjectStructure()
         {
             string baseDirectory = "/home/mcniki/Видео/";
-            List<string> videoUrls = new List<string> { "https://www.youtube.com/shorts/ZPiYFU4pqiQ" };
-            string cutDuration = "00:00:30";
+            List<string> videoUrls = new List<string> { "https://www.youtube.com/shorts/Gno-zBED01Y" };
+            string cutDuration = "00:00:10";
 
             var projectManager = new ProjectStructureManager(baseDirectory, videoUrls, cutDuration);
             await projectManager.CreateProjectStructure();
+        }
+
+        private static async Task RecognitionVideos()
+        {
+            string videoPath = "/home/mcniki/Видео/video/";
+            string modelPath = "/home/mcniki/Документы/Code/C#/Media/Media/models/whisper-small"; // Укажите путь к модели Vosk
+
+            ISpeechRecognitionService speechRecognitionService = new SpeechRecognitionService(videoPath, modelPath);
+            await speechRecognitionService.RecognizeVideos();
         }
     }
 }
